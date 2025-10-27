@@ -84,6 +84,9 @@ with tab5:
     categorical_features=X_train.select_dtypes(include=['object']).columns
     for col in numeric_features:
         user_input[col] = st.number_input(f"Enter {col}", value=0.0)
+    for col in categorical_features:
+        options = X_train[col].unique()
+        user_input[col] = st.selectbox(f"Select {base_col}", options, key=f"select_{col}")
 
 
 
