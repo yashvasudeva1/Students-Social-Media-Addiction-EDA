@@ -80,14 +80,16 @@ with tab5:
     country_options = df['countries'].unique().tolist() if 'countries' in df.columns else []
     platform_options = df['most_used_platform'].unique().tolist() if 'most_used_platform' in df.columns else []
     user_input = {}
-    numeric_features=X_train.select_dtypes(include=['int64','float64']).columns
-    categorical_features=X_train.select_dtypes(include=['object']).columns
-    for col in categorical_features:
-        options = X_train[col].unique()
-        user_input[col] = st.selectbox(f"Select {col}", options, key=f"select_{col}")
-    for col in numeric_features:
-        user_input[col] = st.number_input(f"Enter {col}", value=0.0)
+    for col in X_train.columns:
+    if col not in ['countries', 'most_used_platform']:
+        base_col = col.split('_')[0] if '_' in col else col
+        if base_col in categorical_cols:
+            options = df[base_col].unique()
+            user_input[col] = st.selectbox(f"Select {base_col}", options, key=f"select_{col}")
+        else:
+            user_input[col] = st.number_input(f"Enter {col}", value=0.0)
     
+
 
 
 
