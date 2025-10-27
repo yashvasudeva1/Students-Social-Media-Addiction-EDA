@@ -62,36 +62,37 @@ with tab5:
     X = df_encoded.drop(['Addicted_Score', 'Student_ID'], axis=1)
     y = df['Addicted_Score']
     from sklearn.model_selection import train_test_split
-     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     from sklearn.ensemble import RandomForestClassifier
-     rf_classifier = RandomForestClassifier(random_state=42)
-     rf_classifier.fit(X_train, y_train)
+    rf_classifier = RandomForestClassifier(random_state=42)
+    rf_classifier.fit(X_train, y_train)
      
-     from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-     y_pred = rf_classifier.predict(X_test)
-     accuracy = accuracy_score(y_test, y_pred)
-     print(f"Accuracy: {accuracy:.4f}")
-     print("Classification Report:")
-     print(classification_report(y_test, y_pred))
-     conf_matrix = confusion_matrix(y_test, y_pred)
-     print("Confusion Matrix:")
-     print(conf_matrix)
+    from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+    y_pred = rf_classifier.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Accuracy: {accuracy:.4f}")
+    print("Classification Report:")
+    print(classification_report(y_test, y_pred))
+    conf_matrix = confusion_matrix(y_test, y_pred)
+    print("Confusion Matrix:")
+    print(conf_matrix)
      
-     st.subheader("Enter details to predict Addicted Score")
-     user_input = {}
-     for col in X_train.columns:
-         base_col = col.split('_')[0] if '_' in col else col
-         if base_col in categorical_cols:
-             options = df[base_col].unique()
-             user_input[col] = st.selectbox(f"Select {base_col}", options)
-         else:
-             user_input[col] = st.number_input(f"Enter {col}", value=0.0)
-     user_input_df = pd.DataFrame([user_input])
-     for col in X_train.columns:
-         if col not in user_input_df.columns:
-             user_input_df[col] = 0
-     user_input_df = user_input_df[X_train.columns]
-     if st.button("Predict Addicted Score"):
-         prediction = rf_classifier.predict(user_input_df)
+    st.subheader("Enter details to predict Addicted Score")
+    user_input = {}
+    for col in X_train.columns:
+        base_col = col.split('_')[0] if '_' in col else col
+        if base_col in categorical_cols:
+            options = df[base_col].unique()
+            user_input[col] = st.selectbox(f"Select {base_col}", options)
+        else:
+            user_input[col] = st.number_input(f"Enter {col}", value=0.0)
+    user_input_df = pd.DataFrame([user_input])
+    for col in X_train.columns:
+        if col not in user_input_df.columns:
+            user_input_df[col] = 0
+    user_input_df = user_input_df[X_train.columns]
+    if st.button("Predict Addicted Score"):
+        prediction = rf_classifier.predict(user_input_df)
+
 
 
