@@ -80,10 +80,11 @@ with tab5:
     country_options = df['countries'].unique().tolist() if 'countries' in df.columns else []
     platform_options = df['most_used_platform'].unique().tolist() if 'most_used_platform' in df.columns else []
     user_input = {}
-    numeric_features=df.select_dtype(include=['int64','float64']).columns
-    categorical_features=df.select_dtype(include=['object']).columns
+    numeric_features=df.select_dtypes(include=['int64','float64']).columns
+    categorical_features=df.select_dtypes(include=['object']).columns
     for col in numeric_features:
         user_input[col] = st.number_input(f"Enter {col}", value=0.0)
+
 
 
 
