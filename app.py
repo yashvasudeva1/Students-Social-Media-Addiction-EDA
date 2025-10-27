@@ -79,7 +79,7 @@ with tab5:
     st.subheader("Enter details to predict Addicted Score")
     country_options = df['countries'].unique().tolist() if 'countries' in df.columns else []
     platform_options = df['most_used_platform'].unique().tolist() if 'most_used_platform' in df.columns else []
-    
+    user_input = {}
     # Dropdown for countries
     if 'countries' in X_train.columns:
         user_input['countries'] = st.selectbox("Select Country", country_options, key="select_countries")
@@ -108,6 +108,7 @@ with tab5:
     
     if st.button("Predict Addicted Score"):
         prediction = rf_classifier.predict(user_input_df)
+
 
 
 
