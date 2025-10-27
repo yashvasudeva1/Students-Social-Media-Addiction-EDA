@@ -85,9 +85,11 @@ with tab5:
             base_col = col.split('_')[0] if '_' in col else col
             if base_col in categorical_cols:
                 options = df[base_col].unique()
+                user_input[col] = st.selectbox(f"Select {base_col}", options, key=f"select_{col}")    
+
             else:
                 user_input[col] = st.number_input(f"Enter {col}", value=0.0)
-            user_input[col] = st.selectbox(f"Select {base_col}", options, key=f"select_{col}")    
+
 
 
 
