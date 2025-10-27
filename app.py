@@ -80,15 +80,41 @@ with tab5:
     country_options = df['countries'].unique().tolist() if 'countries' in df.columns else []
     platform_options = df['most_used_platform'].unique().tolist() if 'most_used_platform' in df.columns else []
     user_input = {}
-    for col in X_train.columns:
-        if col not in ['countries', 'most_used_platform']:
-            base_col = col.split('_')[0] if '_' in col else col
-            if base_col in categorical_cols:
-                options = df[base_col].unique()
-                user_input[col] = st.selectbox(f"Select {base_col}", options, key=f"select_{col}")    
 
-            else:
-                user_input[col] = st.number_input(f"Enter {col}", value=0.0)
+    # Single dropdown for 'country'
+    user_input['country'] = st.selectbox(
+        "Select Country", df['country'].unique(), key="select_country"
+    )
+    
+    # Single dropdown for 'most_used_platform'
+    user_input['most_used_platform'] = st.selectbox(
+        "Select Most Used Platform", df['most_used_platform'].unique(), key="select_platform"
+    )
+    
+    # For all other columns, prompt user for input if not already handled
+    for col in X_train.columns:
+        if col in ['country', 'most_used_platform']:
+            continue
+        base_col = col.split('_')[0] if '_' in col else col
+        if base_col in categorical_cols:
+            options = df[base_col].unique()
+            user_input[col] = st.selectbox(f"Select {base_col}", options, key=f"select_{col}")
+        else:
+            user_input[col] = st.number_input(f"Enter {col}", value=0.0, key=f"number_{col}")
+    
+    # Construct dataframe as before
+    user_input_df = pd.DataFrame([user_input])
+    
+    # Adjust columns and prediction logic as before
+    for col in X_train.columns:
+        if col not in user_input_df.columns:
+            user_input_df[col] = 0
+    user_input_df = user_input_df[X_train.columns]
+    
+    if st.button("Predict Addicted Score"):
+        prediction = rf_classifier.predict(user_input_df)
+    
+    
 
 
 
