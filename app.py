@@ -83,7 +83,7 @@ with tab5:
 
     # Single dropdown for 'country'
     user_input['country'] = st.selectbox(
-        "Select Country", df['country'].unique(), key="select_country"
+        "Select Country", df['Country'].unique(), key="select_country"
     )
     
     # Single dropdown for 'most_used_platform'
@@ -115,6 +115,7 @@ with tab5:
         prediction = rf_classifier.predict(user_input_df)
     
     
+
 
 
 
