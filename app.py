@@ -6,8 +6,7 @@ import seaborn as sns
 
 st.title("Students' Social Media Addiction Report")
 
-uploaded_file = st.file_uploader("Upload your Social Media Addiction CSV", type=["csv"])
-df=pd.read_csv(uploaded_file)
+df=pd.read_csv('Students Social Media Addiction.csv')
 tab1,tab2, tab3,tab4, tab5=st.tabs(['Overview','Findings', 'About Data' ,'Visualizations' ,'Predictions'])
 with tab1:
     st.write(df.head())
@@ -83,7 +82,7 @@ with tab5:
         base_col = col.split('_')[0] if '_' in col else col
         if base_col in categorical_cols:
             options = df[base_col].unique()
-            user_input[col] = st.selectbox(f"Select {base_col}", options)
+            user_input[col] = st.selectbox(f"Select {base_col}", options, key=f"select_{col}")
         else:
             user_input[col] = st.number_input(f"Enter {col}", value=0.0)
     user_input_df = pd.DataFrame([user_input])
@@ -93,6 +92,7 @@ with tab5:
     user_input_df = user_input_df[X_train.columns]
     if st.button("Predict Addicted Score"):
         prediction = rf_classifier.predict(user_input_df)
+
 
 
 
