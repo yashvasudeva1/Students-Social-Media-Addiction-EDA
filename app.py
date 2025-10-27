@@ -87,13 +87,13 @@ with tab5:
     )
     
     # Single dropdown for 'most_used_platform'
-    user_input['Most_Used_Platforms'] = st.selectbox(
-        "Select Most Used Platform", df['Most_Used_Platforms'].unique(), key="select_platform"
+    user_input['Most_Used_Platform'] = st.selectbox(
+        "Select Most Used Platform", df['Most_Used_Platform'].unique(), key="select_platform"
     )
     
     # For all other columns, prompt user for input if not already handled
     for col in X_train.columns:
-        if col in ['Country', 'Most_Used_Platforms']:
+        if col in ['Country', 'Most_Used_Platform']:
             continue
         base_col = col.split('_')[0] if '_' in col else col
         if base_col in categorical_cols:
@@ -115,6 +115,7 @@ with tab5:
         prediction = rf_classifier.predict(user_input_df)
     
     
+
 
 
 
